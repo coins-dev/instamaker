@@ -50,7 +50,7 @@ def main():
                'upgrade-insecure-requests':'1'}
 
     s = requests.Session()
-    s.get('https://instagram.com',headers=getHeaders)
+    s.get('https://instagram.com',headers=getHeaders())
     guid = randomString(8) + '-' + randomString(4) + "-" + randomString(4) + '-' + randomString(4) + '-' +randomString(12)
     device_id = 'android-' + str(HMAC(str(random.randint(1000,9999))))[0:min(64,16)]
     information = {'username':args.username,'first_name':args.name,'password':args.password,'email':args.email,'device_id':device_id,'guid':guid}
@@ -64,7 +64,7 @@ def main():
                   'X-IG-Connection-Type':'WIFI',
                   'X-IG-Capabilities':'BQ=='
                   }
-    x = s.post('https://i.instagram.com/api/v1/accounts/create/',headers=postHeaders,data=payload)
+    x = s.post('https://i.instagram.com/api/v1/accounts/create/',headers=LoadHeader(),data=payload,cookies=y.cookies)
     result = json.loads(x.content)
     if result['status'] != 'fail':
         if result['account_created'] == True:
